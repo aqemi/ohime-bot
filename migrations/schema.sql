@@ -1,6 +1,7 @@
 -- DROP TABLE IF EXISTS threads;
 CREATE TABLE
   IF NOT EXISTS threads (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     chatId INTEGER NOT NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     role TEXT CHECK (role IN ('user', 'assistant', 'system')) NOT NULL,

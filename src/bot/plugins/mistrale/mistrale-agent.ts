@@ -74,16 +74,13 @@ export class MistraleAgent {
     if (typeof response !== 'object' || response === null) {
       return false;
     }
-    if ('text' in response && (typeof response.text !== 'string' || !response.text)) {
+    if ('text' in response && typeof response.text === 'object') {
       return false;
     }
     if ('sticker' in response && (typeof response.sticker !== 'string' || !response.sticker)) {
       return false;
     }
-    if (
-      'gif' in response &&
-      ((typeof response.gif !== 'string' && typeof response.gif !== 'number'))
-    ) {
+    if ('gif' in response && typeof response.gif !== 'string' && typeof response.gif !== 'number') {
       return false;
     }
     if (!response.text && !response.sticker && !response.gif) {

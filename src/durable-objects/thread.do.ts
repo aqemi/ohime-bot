@@ -1,7 +1,7 @@
 import { DurableObject } from 'cloudflare:workers';
 import { config } from '../bot/ai.config';
 import { AiResponseTransformer } from '../bot/handlers/ai-response-transformer';
-import { MistraleAgent } from '../bot/plugins/mistrale/mistrale-agent';
+import { AiResponse, MistraleAgent } from '../bot/plugins/mistrale/mistrale-agent';
 import { ResponseHelper } from '../bot/response-helper';
 import { TelegramApi } from '../bot/telegram-api';
 import { GifManager } from '../managers/gif.manager';
@@ -178,6 +178,11 @@ export class ThreadDurableObject extends DurableObject {
     await this.sendTyping(chatId, businessConnectionId);
 
     const [response] = await Promise.all([this.runCompletion(chatId, chatTitle), this.sleep(typingDuration)]);
+
+    if (!response) {
+      return;
+    }
+
     const responseTransformer = new AiResponseTransformer(
       this.env,
       this.api,
@@ -196,10 +201,19 @@ export class ThreadDurableObject extends DurableObject {
     await this.threadManager.appendThread({ chatId, role: 'assistant', content: response.raw });
   }
 
-  private async runCompletion(chatId: number, chatTitle: string | null) {
+  private async runCompletion(chatId: number, chatTitle: string | null): Promise<AiResponse | void> {
     const thread = await this.threadManager.getThread(chatId);
     const threadWithPrompt = chatTitle ? [this.promptManager.getChatPrompt(chatTitle), ...thread] : thread;
-    return this.agent.completion(threadWithPrompt);
+    let completion;
+    try {
+      completion = await this.agent.completion(threadWithPrompt);
+    } catch (error) {
+      if ((error as { statusCode?: number }).statusCode === 429) {
+        return console.error(error);
+      }
+      throw error;
+    }
+    return completion;
   }
 
   private async sleep(ms: number) {

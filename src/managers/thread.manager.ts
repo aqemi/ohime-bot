@@ -29,10 +29,12 @@ export class ThreadManager {
   }
 
   public async getThread(chatId: number): Promise<Thread> {
-    const { results } = await this.env.DB.prepare('SELECT * FROM threads WHERE chatId = ?')
+    const { results } = await this.env.DB.prepare(
+      'SELECT * FROM threads WHERE chatId = ? ORDER BY id DESC LIMIT 10',
+    )
       .bind(chatId)
       .all<ThreadMessage>();
-    return results.map((x) => ({ role: x.role, content: x.content }));
+    return results.map((x) => ({ role: x.role, content: x.content })).reverse();
   }
 
   public async appendThread(message: Omit<ThreadMessage, 'createdAt'>): Promise<void> {

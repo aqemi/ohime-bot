@@ -10,7 +10,7 @@ export class RestartPromptPlugin extends RegexBasedPlugin {
     await this.api.setMessageReaction({
       chat_id: this.ctx.chatId,
       message_id: this.ctx.messageId,
-      reaction: [{ type: 'emoji', emoji: '👍' }],
+      reaction: [{ type: 'emoji', emoji: '🍓' }],
       is_big: true,
     });
   }
