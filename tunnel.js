@@ -1,7 +1,6 @@
 const { spawn } = require('node:child_process');
 const { install, bin, Tunnel } = require('cloudflared');
 const wait = require('wait-on');
-const { setTimeout } = require('node:timers/promises');
 
 (async function () {
   try {
@@ -30,8 +29,8 @@ const { setTimeout } = require('node:timers/promises');
       process.exit(0);
     });
 
-    await setTimeout(5000);
-    const response = await fetch(`${link}/install`);
+    await wait({ resources: [link], timeout: 20_000, verbose: true });
+    const response = await fetch(`${link}/install`, { method: 'POST' });
     const data = await response.json();
     console.log('Bot registered', data);
   } catch (err) {

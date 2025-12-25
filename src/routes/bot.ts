@@ -13,6 +13,7 @@ import { ForwardReplyHandler } from '../bot/handlers/forward-reply.hander';
 import { LogHandler } from '../bot/handlers/log.handler';
 import { ResponseHelper } from '../bot/response-helper';
 import { TelegramApi } from '../bot/telegram-api';
+import { getBotEndpoint } from '../utils';
 
 const handlers: TelegramUpdateHandlerDerived[] = [
   BusinessChatHandler,
@@ -27,6 +28,10 @@ const handlers: TelegramUpdateHandlerDerived[] = [
 ];
 
 export async function onTelegramUpdate(request: Request, env: Env): Promise<Response> {
+  if (!request.url.endsWith(getBotEndpoint(env))) {
+    return new Response(null, { status: 404 });
+  }
+
   const payload = await request.json<TelegramUpdate>();
   const api = new TelegramApi(env.TG_TOKEN);
   const responseHelper = new ResponseHelper(api, env);

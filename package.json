@@ -45,6 +45,7 @@
     "sql": "wrangler d1 execute picture-bot --command "
   },
   "dependencies": {
-    "@mistralai/mistralai": "^1.5.2"
+    "@mistralai/mistralai": "^1.5.2",
+    "itty-router": "^5.0.22"
   }
 }

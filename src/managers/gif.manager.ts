@@ -1,5 +1,4 @@
 import { Mistral } from '@mistralai/mistralai';
-import { PromptManager } from './prompt.manager';
 
 type Gif = {
   id: number;
@@ -32,9 +31,13 @@ export class GifManager {
     return description;
   }
 
-  private async getAllGifs(): Promise<Gif[]> {
+  public async getAllGifs(): Promise<Gif[]> {
     const { results } = await this.env.DB.prepare('SELECT * FROM gifs').all<Gif>();
     return results;
+  }
+
+  public async deleteGif(id: string | number): Promise<void> {
+    await this.env.DB.prepare('DELETE FROM gifs WHERE id = ?').bind(id).run();
   }
 
   public async getPrompt(): Promise<string> {

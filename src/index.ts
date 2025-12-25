@@ -8,28 +8,34 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-import { info, install, ok, onTelegramUpdate } from './routes';
-import { getBotEndpoint } from './utils/env';
+import { IttyRouter, error, withParams } from 'itty-router';
+import { info, install, ok, onTelegramUpdate, gifsList, deleteGifRoute } from './routes';
+import { gifsFile } from './routes/gifsFile';
 
-type Handler = (req: Request, env: Env) => Promise<Response>;
+const router = IttyRouter();
 
-const buildMapping = (env: Env): Record<string, Handler> => ({
-  '/install': install,
-  '/': ok,
-  '/info': info,
-  [getBotEndpoint(env)]: onTelegramUpdate,
-});
+router.all('*', withParams);
+router.head('/', ok);
+router.get('/', ok);
+router.get('/info', info);
+router.post('/install', install);
+router.post('/bot_*', onTelegramUpdate);
+router.get('/gifs', gifsList);
+router.get('/gifs/:file_id', gifsFile);
+router.delete('/gifs/:id', deleteGifRoute);
+router.all('*', () => error(404));
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     ctx.passThroughOnException();
-    const mapping = buildMapping(env);
-    const { pathname } = new URL(request.url);
-    const handler = mapping[pathname];
-    if (!handler) {
-      return new Response(null, { status: 404 });
+    try {
+      const response = router.fetch(request, env, ctx);
+      return response;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_error) {
+      console.error(_error);
+      return error(500);
     }
-    return handler(request, env);
   },
 };
 

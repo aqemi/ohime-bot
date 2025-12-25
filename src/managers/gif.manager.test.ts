@@ -188,4 +188,33 @@ describe('GifManager', () => {
       expect(prompt).toBe('Доступные гифки:\n1 - tag1, tag2');
     });
   });
+
+  describe('deleteGif', () => {
+    it('should delete a gif by numeric id', async () => {
+      await env.DB.prepare('DELETE FROM gifs').run();
+      await env.DB.prepare('INSERT INTO gifs (id, file_id, description) VALUES (?, ?, ?)')
+        .bind(10, 'file-del-10', 'to-delete')
+        .run();
+
+      await gifManager.deleteGif(10);
+      const res = await env.DB.prepare('SELECT * FROM gifs WHERE id = ?').bind(10).all();
+      expect(res.results).toHaveLength(0);
+    });
+
+    it('should delete a gif when id is passed as string', async () => {
+      await env.DB.prepare('DELETE FROM gifs').run();
+      await env.DB.prepare('INSERT INTO gifs (id, file_id, description) VALUES (?, ?, ?)')
+        .bind(11, 'file-del-11', 'to-delete')
+        .run();
+
+      await gifManager.deleteGif('11');
+      const res = await env.DB.prepare('SELECT * FROM gifs WHERE id = ?').bind(11).all();
+      expect(res.results).toHaveLength(0);
+    });
+
+    it('should not throw when deleting a non-existent id', async () => {
+      await env.DB.prepare('DELETE FROM gifs').run();
+      await expect(gifManager.deleteGif(9999)).resolves.toBeUndefined();
+    });
+  });
 });
