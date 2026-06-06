@@ -1,3 +1,4 @@
+export * from './ignore.handler';
 export * from './text.handler';
 export * from './callback.handler';
 export * from './copy-sticker-pack.handler';

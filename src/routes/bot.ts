@@ -4,6 +4,7 @@ import {
   BusinessChatHandler,
   CopyStickerPackContinueHandler,
   CopyStickerPackHandler,
+  IgnoreHandler,
   StoreGifHandler,
   TelegramCallbackHandler,
   TelegramTextHandler,
@@ -18,6 +19,7 @@ import { getBotEndpoint } from '../utils';
 const handlers: TelegramUpdateHandlerDerived[] = [
   BusinessChatHandler,
   LogHandler,
+  IgnoreHandler,
   ForwardReplyHandler,
   TelegramTextHandler,
   TelegramCallbackHandler,
@@ -35,12 +37,6 @@ export async function onTelegramUpdate(request: Request, env: Env): Promise<Resp
   const payload = await request.json<TelegramUpdate>();
   const api = new TelegramApi(env.TG_TOKEN);
   const responseHelper = new ResponseHelper(api, env);
-
-  const ignoreList = (env.IGNORE_LIST ?? '').split(',').map(Number).filter(Boolean);
-  const senderId = payload.message?.from?.id ?? payload.callback_query?.from.id;
-  if (senderId && ignoreList.includes(senderId)) {
-    return new Response(null, { status: 204 });
-  }
 
   for (const Handler of handlers) {
     const handler = new Handler(api, env, responseHelper);

@@ -29,7 +29,12 @@ export class ForwardReplyHandler extends TelegramUpdateHandler {
       const [log] = logs;
 
       const interpreter = new AiMessageInterpreter(this.env, this.api);
-      const aiInput = await interpreter.formatMessage(message);
+      const originalFrom = message.forward_from ?? {
+        id: 0,
+        is_bot: false,
+        first_name: message.forward_sender_name ?? '',
+      };
+      const aiInput = await interpreter.formatMessage({ ...message, from: originalFrom });
       if (!aiInput) {
         throw new Error('No input extracted from message');
       }
