@@ -7,9 +7,10 @@ describe('GifManager', () => {
   let gifManager: GifManager;
   let spy: MockInstance;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
     gifManager = new GifManager(env);
+    await env.DB.prepare('DELETE FROM gifs').run();
     spy = vi.spyOn(gifManager['client']['chat'], 'complete').mockResolvedValueOnce({
       choices: [
         {

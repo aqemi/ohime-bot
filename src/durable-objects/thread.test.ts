@@ -49,8 +49,9 @@ describe('ThreadDurableObject', () => {
     text: 'Hello',
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
+    await env.DB.prepare('DELETE FROM threads').run();
   });
 
   describe('reply', () => {

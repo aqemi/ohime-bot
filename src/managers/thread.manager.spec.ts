@@ -7,6 +7,7 @@ describe('ThreadManager', () => {
 
   beforeEach(async () => {
     threadManager = new ThreadManager(env);
+    await env.DB.prepare('DELETE FROM threads').run();
   });
 
   it('should check if a thread is active', async () => {

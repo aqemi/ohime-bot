@@ -3,12 +3,14 @@ import { decorateError } from '../utils/decorate-error';
 import { TelegramApi } from './telegram-api';
 
 export class ResponseHelper {
-  private readonly sanitizeExpr = getSanitizeRegex(this.env);
+  private readonly sanitizeExpr: RegExp;
 
   constructor(
     private readonly api: TelegramApi,
     private readonly env: Env,
-  ) {}
+  ) {
+    this.sanitizeExpr = getSanitizeRegex(env);
+  }
 
   public async sendJSON(chatId: number, json: object | string, replyTo?: number): Promise<void> {
     const stringified = typeof json === 'string' ? json : JSON.stringify(json, null, 2).replaceAll('\\"', '\\\\"');

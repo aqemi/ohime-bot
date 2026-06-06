@@ -16,7 +16,7 @@ describe('MistraleAgent', () => {
     } as unknown as PromptManager;
 
     agent = new MistraleAgent(env, promptManager);
-    spy = vi.spyOn(agent['client']['agents'], 'complete').mockResolvedValueOnce({
+    spy = vi.spyOn(agent['client']['agents'], 'complete').mockResolvedValue({
       choices: [
         {
           message: {

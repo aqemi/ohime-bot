@@ -7,6 +7,7 @@ describe('PromptManager', () => {
 
   beforeEach(async () => {
     promptManager = new PromptManager(env);
+    await env.DB.prepare('DELETE FROM prompts').run();
   });
 
   describe('getPrompt', () => {

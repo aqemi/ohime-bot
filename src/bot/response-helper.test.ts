@@ -81,10 +81,10 @@ describe('ResponseHelper', () => {
             "text": "\`\`\`json
           {
             "message": "ERROR",
-            "name": "FetchError",
+            "url": "https://example.com/<REDACTED>",
             "code": 500,
             "body": "body",
-            "url": "https://example.com/<REDACTED>"
+            "name": "FetchError"
           }
           \`\`\`",
           }
