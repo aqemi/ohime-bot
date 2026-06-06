@@ -14,6 +14,7 @@ export type InvocationContext = {
   text: string;
   replyToText?: string;
   businessConnectionId?: string;
+  isForwarded?: boolean;
 };
 
 export abstract class BasePlugin {

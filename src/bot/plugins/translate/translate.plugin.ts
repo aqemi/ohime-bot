@@ -15,7 +15,7 @@ export class TranslatePlugin extends BasePlugin {
   }
 
   public async run(): Promise<void> {
-    this.api.sendChatAction({ action: 'typing', chat_id: this.ctx.chatId });
+    await this.api.sendChatAction({ action: 'typing', chat_id: this.ctx.chatId });
 
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
       method: 'POST',
