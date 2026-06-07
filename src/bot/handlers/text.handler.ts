@@ -12,7 +12,7 @@ import {
   TestPlugin,
   Youtube,
 } from '../plugins';
-import { RestartPromptPlugin } from '../plugins/mistrale/restart.plugin';
+import { RestartPromptPlugin } from '../plugins/restart/restart.plugin';
 import { TelegramUpdateHandler } from './base.handler';
 
 const plugins: PluginDerived[] = [

@@ -1,6 +1,6 @@
 import type { Update as TelegramUpdate } from 'node-telegram-bot-api';
 import {
-  AiHandler,
+  MikuHandler,
   BusinessChatHandler,
   CopyStickerPackContinueHandler,
   CopyStickerPackHandler,
@@ -26,7 +26,7 @@ const handlers: TelegramUpdateHandlerDerived[] = [
   CopyStickerPackHandler,
   CopyStickerPackContinueHandler,
   StoreGifHandler,
-  AiHandler,
+  MikuHandler,
 ];
 
 export async function onTelegramUpdate(request: Request, env: Env): Promise<Response> {

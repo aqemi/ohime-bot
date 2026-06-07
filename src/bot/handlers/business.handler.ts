@@ -1,9 +1,9 @@
 import type { Update as TelegramUpdate } from 'node-telegram-bot-api';
-import { AiHandler } from './ai.handler';
+import { MikuHandler } from './miku.handler';
 import { AiMessageInterpreter } from './ai-message-interpreter';
 import { getThreadObject } from '../../durable-objects/thread.do';
 
-export class BusinessChatHandler extends AiHandler {
+export class BusinessChatHandler extends MikuHandler {
   async match(payload: TelegramUpdate) {
     const message = payload.business_message ?? payload.edited_business_message;
     return !!this.env.FORCE_BUSINESS || (!!message && message.from?.id === message.chat?.id);

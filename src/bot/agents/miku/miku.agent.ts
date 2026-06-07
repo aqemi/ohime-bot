@@ -15,7 +15,7 @@ type ConversationTraits = {
   aggressive: boolean;
 };
 
-export class MistraleAgent {
+export class MikuAgent {
   private readonly client: Mistral;
   constructor(
     private readonly env: Env,

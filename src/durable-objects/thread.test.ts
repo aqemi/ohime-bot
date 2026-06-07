@@ -1,7 +1,7 @@
 import { env, runDurableObjectAlarm, runInDurableObject } from 'cloudflare:test';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { config } from '../bot/ai.config';
-import { MistraleAgent } from '../bot/plugins/mistrale/mistrale-agent';
+import { MikuAgent } from '../bot/agents/miku/miku.agent';
 import { TelegramApi } from '../bot/telegram-api';
 import { ThreadManager } from '../managers/thread.manager';
 
@@ -43,7 +43,7 @@ describe('ThreadDurableObject', () => {
     result: true,
   });
 
-  const completionSpy = vi.spyOn(MistraleAgent.prototype, 'completion').mockResolvedValue({
+  const completionSpy = vi.spyOn(MikuAgent.prototype, 'completion').mockResolvedValue({
     valid: true,
     raw: '',
     text: 'Hello',

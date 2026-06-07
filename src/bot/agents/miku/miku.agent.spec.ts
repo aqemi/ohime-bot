@@ -3,10 +3,10 @@ import { env } from 'cloudflare:test';
 import { afterEach, beforeEach, describe, expect, it, Mock, MockInstance, vi } from 'vitest';
 import { PromptManager } from '../../../managers/prompt.manager';
 import { config } from '../../ai.config';
-import { MistraleAgent } from './mistrale-agent';
+import { MikuAgent } from './miku.agent';
 
-describe('MistraleAgent', () => {
-  let agent: MistraleAgent;
+describe('MikuAgent', () => {
+  let agent: MikuAgent;
   let spy: MockInstance;
   let promptManager: PromptManager;
 
@@ -15,7 +15,7 @@ describe('MistraleAgent', () => {
       getSystemPrompt: vi.fn().mockResolvedValue([]),
     } as unknown as PromptManager;
 
-    agent = new MistraleAgent(env, promptManager);
+    agent = new MikuAgent(env, promptManager);
     spy = vi.spyOn(agent['client']['agents'], 'complete').mockResolvedValue({
       choices: [
         {

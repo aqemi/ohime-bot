@@ -1,7 +1,7 @@
 import { DurableObject } from 'cloudflare:workers';
 import { config } from '../bot/ai.config';
 import { AiResponseTransformer } from '../bot/handlers/ai-response-transformer';
-import { AiResponse, MistraleAgent } from '../bot/plugins/mistrale/mistrale-agent';
+import { AiResponse, MikuAgent } from '../bot/agents/miku/miku.agent';
 import { ResponseHelper } from '../bot/response-helper';
 import { TelegramApi } from '../bot/telegram-api';
 import { GifManager } from '../managers/gif.manager';
@@ -41,7 +41,7 @@ export class ThreadDurableObject extends DurableObject {
   readonly env: Env;
   private readonly api: TelegramApi;
   private readonly responseHelper: ResponseHelper;
-  private readonly agent: MistraleAgent;
+  private readonly agent: MikuAgent;
   private readonly threadManager: ThreadManager;
   private readonly promptManager: PromptManager;
   private state?: ThreadObjectState;
@@ -52,7 +52,7 @@ export class ThreadDurableObject extends DurableObject {
     this.responseHelper = new ResponseHelper(this.api, env);
     this.threadManager = new ThreadManager(env);
     this.promptManager = new PromptManager(env);
-    this.agent = new MistraleAgent(env, this.promptManager);
+    this.agent = new MikuAgent(env, this.promptManager);
   }
 
   public async reply({

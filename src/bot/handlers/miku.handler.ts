@@ -7,7 +7,7 @@ import { AiMessageInterpreter } from './ai-message-interpreter';
 import { TelegramUpdateHandler } from './base.handler';
 import { getThreadObject } from '../../durable-objects/thread.do';
 
-export class AiHandler extends TelegramUpdateHandler {
+export class MikuHandler extends TelegramUpdateHandler {
   private readonly threadManager: ThreadManager;
 
   constructor(

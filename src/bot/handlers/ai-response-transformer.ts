@@ -3,7 +3,7 @@ import { GifManager } from '../../managers/gif.manager';
 import { StickerManager } from '../../managers/sticker.manager';
 import { defined } from '../../utils';
 import { GoogleImageSearch, InvocationContext, PluginDerived, Tenor, Youtube } from '../plugins';
-import { AiResponse } from '../plugins/mistrale/mistrale-agent';
+import { AiResponse } from '../agents/miku/miku.agent';
 import { ResponseHelper } from '../response-helper';
 import { TelegramApi } from '../telegram-api';
 
