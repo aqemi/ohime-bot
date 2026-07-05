@@ -1,0 +1,22 @@
+{
+  "update_id": 35940000,
+  "message": {
+    "message_id": 0,
+    "from": {
+      "id": 777,
+      "is_bot": false,
+      "first_name": "first_name",
+      "username": "username",
+      "language_code": "ru",
+      "is_premium": true
+    },
+    "chat": {
+      "id": 777,
+      "first_name": "first_name",
+      "username": "username",
+      "type": "private"
+    },
+    "date": 1747676800,
+    "text": "видео kasane teto"
+  }
+}

@@ -1,15 +1,15 @@
 import { env, SELF } from 'cloudflare:test';
-import { TelegramApi } from '../../telegram-api';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getBotEndpoint } from '../../../utils';
+import { TelegramApi } from '../../telegram-api';
 import requestFixture from './fixtures/request.json';
-import moarFixtire from './fixtures/moar.json';
+import moarFixture from './fixtures/moar.json';
 import delFixture from './fixtures/del.json';
 import retryFixture from './fixtures/retry.json';
 
-const sendPhotoSpy = vi.spyOn(TelegramApi.prototype, 'sendPhoto').mockResolvedValue({
+const sendMessageSpy = vi.spyOn(TelegramApi.prototype, 'sendMessage').mockResolvedValue({
   ok: true,
-  result: true,
+  result: {} as never,
 });
 const deleteMessageSpy = vi.spyOn(TelegramApi.prototype, 'deleteMessage').mockResolvedValue({
   ok: true,
@@ -24,22 +24,25 @@ const editMessageReplyMarkupSpy = vi.spyOn(TelegramApi.prototype, 'editMessageRe
   result: true,
 });
 
-describe('Google Image Search Plugin', () => {
+const youtubeUrl = expect.stringMatching(/^https:\/\/www\.youtube\.com\/watch\?v=.+/);
+const youtubeUrlWithMention = expect.stringMatching(/^@username\nhttps:\/\/www\.youtube\.com\/watch\?v=.+/);
+
+describe('Youtube Plugin', () => {
   const url = `https://example.org${getBotEndpoint(env)}`;
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should return image', async () => {
+  it('should return a video link', async () => {
     await SELF.fetch(url, {
       method: 'POST',
       body: JSON.stringify(requestFixture),
     });
-    expect(sendPhotoSpy).toHaveBeenCalledExactlyOnceWith({
+    expect(sendMessageSpy).toHaveBeenCalledExactlyOnceWith({
       chat_id: 777,
       disable_notification: true,
-      photo: expect.any(String),
+      text: youtubeUrl,
       reply_markup: {
         inline_keyboard: [
           [
@@ -48,11 +51,11 @@ describe('Google Image Search Plugin', () => {
               text: 'del',
             },
             {
-              callback_data: '{"0":1,"1":777,"2":"GoogleImageSearch","3":1}',
+              callback_data: '{"0":1,"1":777,"2":"Youtube","3":1}',
               text: 're:',
             },
             {
-              callback_data: '{"0":2,"1":777,"2":"GoogleImageSearch","3":1}',
+              callback_data: '{"0":2,"1":777,"2":"Youtube","3":1}',
               text: 'moar!',
             },
           ],
@@ -62,16 +65,20 @@ describe('Google Image Search Plugin', () => {
     });
   });
 
-  it('should return next image', async () => {
+  it('should return the next video on the "moar!" button', async () => {
     await SELF.fetch(url, {
       method: 'POST',
-      body: JSON.stringify(moarFixtire),
+      body: JSON.stringify(moarFixture),
     });
-    expect(sendPhotoSpy).toHaveBeenCalledExactlyOnceWith({
-      caption: '@username',
+    expect(editMessageReplyMarkupSpy).toHaveBeenCalledExactlyOnceWith({
+      chat_id: 777,
+      message_id: 1,
+      reply_markup: undefined,
+    });
+    expect(sendMessageSpy).toHaveBeenCalledExactlyOnceWith({
       chat_id: 777,
       disable_notification: true,
-      photo: expect.any(String),
+      text: youtubeUrlWithMention,
       reply_markup: {
         inline_keyboard: [
           [
@@ -80,11 +87,11 @@ describe('Google Image Search Plugin', () => {
               text: 'del',
             },
             {
-              callback_data: '{"0":1,"1":777,"2":"GoogleImageSearch","3":2}',
+              callback_data: '{"0":1,"1":777,"2":"Youtube","3":2}',
               text: 're:',
             },
             {
-              callback_data: '{"0":2,"1":777,"2":"GoogleImageSearch","3":2}',
+              callback_data: '{"0":2,"1":777,"2":"Youtube","3":2}',
               text: 'moar!',
             },
           ],
@@ -123,18 +130,17 @@ describe('Google Image Search Plugin', () => {
     });
   });
 
-  it('should delete the old message and send a fresh image on the "re:" button', async () => {
+  it('should delete the old message and send a fresh video on the "re:" button', async () => {
     await SELF.fetch(url, {
       method: 'POST',
       body: JSON.stringify(retryFixture),
     });
     expect(deleteMessageSpy).toHaveBeenCalledExactlyOnceWith({ chat_id: 777, message_id: 1 });
     expect(editMessageReplyMarkupSpy).not.toHaveBeenCalled();
-    expect(sendPhotoSpy).toHaveBeenCalledExactlyOnceWith({
-      caption: '@username',
+    expect(sendMessageSpy).toHaveBeenCalledExactlyOnceWith({
       chat_id: 777,
       disable_notification: true,
-      photo: expect.any(String),
+      text: youtubeUrlWithMention,
       reply_markup: {
         inline_keyboard: [
           [
@@ -143,11 +149,11 @@ describe('Google Image Search Plugin', () => {
               text: 'del',
             },
             {
-              callback_data: '{"0":1,"1":777,"2":"GoogleImageSearch","3":2}',
+              callback_data: '{"0":1,"1":777,"2":"Youtube","3":2}',
               text: 're:',
             },
             {
-              callback_data: '{"0":2,"1":777,"2":"GoogleImageSearch","3":2}',
+              callback_data: '{"0":2,"1":777,"2":"Youtube","3":2}',
               text: 'moar!',
             },
           ],
@@ -170,7 +176,7 @@ describe('Google Image Search Plugin', () => {
       body: JSON.stringify(fixture),
     });
     expect(deleteMessageSpy).not.toHaveBeenCalled();
-    expect(sendPhotoSpy).not.toHaveBeenCalled();
+    expect(sendMessageSpy).not.toHaveBeenCalled();
     expect(answerCallbackQuerySpy).toHaveBeenCalledExactlyOnceWith({
       callback_query_id: '0000000',
       text: 'Не твой ответ, не трогай',

@@ -1,0 +1,21 @@
+{
+  "update_id": 35940006,
+  "message": {
+    "message_id": 1,
+    "from": {
+      "id": 777,
+      "is_bot": false,
+      "first_name": "first_name",
+      "username": "username",
+      "language_code": "en",
+      "is_premium": false
+    },
+    "chat": {
+      "id": -100777,
+      "title": "Test Group",
+      "type": "supergroup"
+    },
+    "date": 1747676800,
+    "text": "Алиса, cat on the moon"
+  }
+}

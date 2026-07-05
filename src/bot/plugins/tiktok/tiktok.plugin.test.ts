@@ -16,12 +16,12 @@ describe('Tiktok', () => {
     vi.clearAllMocks();
   });
 
-  it('should rewrite a tiktok.com link to vxtiktok.com', async () => {
+  it('should rewrite a tiktok.com link to kktiktok.com', async () => {
     await SELF.fetch(url, { method: 'POST', body: JSON.stringify(requestFixture) });
 
     expect(sendMessageSpy).toHaveBeenCalledExactlyOnceWith({
       chat_id: -100777,
-      text: 'https://www.vxtiktok.com/@user/video/123456',
+      text: 'https://www.kktiktok.com/@user/video/123456',
       reply_to_message_id: 1,
       disable_notification: true,
     });
@@ -40,7 +40,7 @@ describe('Tiktok', () => {
 
     expect(sendMessageSpy).toHaveBeenCalledExactlyOnceWith({
       chat_id: -100777,
-      text: 'https://vm.vxtiktok.com/AAA\nvxtiktok.com/@x/video/999',
+      text: 'https://vm.kktiktok.com/AAA\nkktiktok.com/@x/video/999',
       reply_to_message_id: 1,
       disable_notification: true,
     });

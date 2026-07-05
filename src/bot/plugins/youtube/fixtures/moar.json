@@ -1,0 +1,70 @@
+{
+  "update_id": 35940001,
+  "callback_query": {
+    "id": "0000000",
+    "from": {
+      "id": 777,
+      "is_bot": false,
+      "first_name": "first_name",
+      "username": "username",
+      "language_code": "ru",
+      "is_premium": true
+    },
+    "message": {
+      "message_id": 1,
+      "from": {
+        "id": 0,
+        "is_bot": true,
+        "first_name": "miku",
+        "username": "something_bot"
+      },
+      "chat": {
+        "id": 777,
+        "first_name": "first_name",
+        "username": "username",
+        "type": "private"
+      },
+      "date": 1747687916,
+      "reply_to_message": {
+        "message_id": 0,
+        "from": {
+          "id": 777,
+          "is_bot": false,
+          "first_name": "first_name",
+          "username": "username",
+          "language_code": "ru",
+          "is_premium": true
+        },
+        "chat": {
+          "id": 777,
+          "first_name": "first_name",
+          "username": "username",
+          "type": "private"
+        },
+        "date": 1747687915,
+        "text": "видео kasane teto"
+      },
+      "text": "https://www.youtube.com/watch?v=abcdef",
+      "reply_markup": {
+        "inline_keyboard": [
+          [
+            {
+              "text": "del",
+              "callback_data": "{\"0\":0,\"1\":777}"
+            },
+            {
+              "text": "re:",
+              "callback_data": "{\"0\":1,\"1\":777,\"2\":\"Youtube\",\"3\":1}"
+            },
+            {
+              "text": "moar!",
+              "callback_data": "{\"0\":2,\"1\":777,\"2\":\"Youtube\",\"3\":1}"
+            }
+          ]
+        ]
+      }
+    },
+    "chat_instance": "00000000",
+    "data": "{\"0\":2,\"1\":777,\"2\":\"Youtube\",\"3\":1}"
+  }
+}
