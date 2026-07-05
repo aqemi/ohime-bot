@@ -9,7 +9,7 @@ interface XaiImageResponse {
 }
 
 export class DrawPlugin extends RegexBasedPlugin {
-  protected regex = /^(?:Алиса|грок|@grok)(?:[, ](.+))?$/iu;
+  protected regex = /^(?:Алиса)(?:[, ](.+))?$/iu;
 
   public async run(): Promise<void> {
     this.api.sendChatAction({ action: 'upload_photo', chat_id: this.ctx.chatId });

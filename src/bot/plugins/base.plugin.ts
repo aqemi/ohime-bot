@@ -1,4 +1,4 @@
-import { type InlineKeyboardMarkup } from 'node-telegram-bot-api';
+import { type InlineKeyboardMarkup, type Message } from 'node-telegram-bot-api';
 
 import { ResponseCallbackType, stringify } from '../../utils/callback-data';
 import { type TelegramApi } from '../telegram-api';
@@ -13,6 +13,7 @@ export type InvocationContext = {
   initiatorName: string;
   text: string;
   replyToText?: string;
+  replyToMessage?: Message;
   businessConnectionId?: string;
   isForwarded?: boolean;
 };

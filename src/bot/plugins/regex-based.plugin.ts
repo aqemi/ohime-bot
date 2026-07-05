@@ -19,7 +19,7 @@ export abstract class RegexBasedPlugin extends BasePlugin {
 
   public abstract run(arg: { resultNumber: number }): Promise<void>;
 
-  public match() {
+  public match(): boolean | Promise<boolean> {
     return this.regex.test(this.ctx.text) && (!this.queryRequired || !!this.query);
   }
 
