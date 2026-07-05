@@ -1,0 +1,6 @@
+allowBuilds:
+  cloudflared: true
+  esbuild: true
+  sharp: true
+  workerd: true
+blockExoticSubdeps: true

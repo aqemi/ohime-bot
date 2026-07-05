@@ -29,7 +29,7 @@ const wait = require('wait-on');
       process.exit(0);
     });
 
-    await wait({ resources: [link], timeout: 20_000, verbose: true });
+    await wait({ resources: [link], timeout: 0, verbose: true });
     const response = await fetch(`${link}/install`, { method: 'POST' });
     const data = await response.json();
     console.log('Bot registered', data);
