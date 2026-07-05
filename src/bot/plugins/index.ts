@@ -6,3 +6,8 @@ export * from './keyboard/keyboard.plugin';
 export * from './test/test.plugin';
 export * from './draw/draw.plugin';
 export * from './translate/translate.plugin';
+export * from './instagram/instagram.plugin';
+export * from './tiktok/tiktok.plugin';
+export * from './x/x.plugin';
+export * from './reddit/reddit.plugin';
+// export * from './grok/grok.plugin';

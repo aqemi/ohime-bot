@@ -5,20 +5,30 @@ import {
   TranslatePlugin,
   DrawPlugin,
   GoogleImageSearch,
+  // GrokPlugin,
+  Instagram,
   InvocationContext,
   Keyboard,
   PluginDerived,
   Tenor,
   TestPlugin,
+  Reddit,
+  Tiktok,
+  XCom,
   Youtube,
 } from '../plugins';
 import { RestartPromptPlugin } from '../plugins/restart/restart.plugin';
 import { TelegramUpdateHandler } from './base.handler';
 
 const plugins: PluginDerived[] = [
+  // GrokPlugin,
   GoogleImageSearch,
   Youtube,
   Tenor,
+  Instagram,
+  Tiktok,
+  XCom,
+  Reddit,
   DrawPlugin,
   Keyboard,
   RestartPromptPlugin,
@@ -44,6 +54,7 @@ export class TelegramTextHandler extends TelegramUpdateHandler {
       initiatorName: defined(message?.from?.username ?? message?.from?.first_name, 'message?.from?.first_name'),
       text: defined(message?.caption || message?.text, 'message.text|caption'),
       replyToText: message?.reply_to_message?.text,
+      replyToMessage: message?.reply_to_message ?? undefined,
       isForwarded: !!message.forward_date
     };
 
